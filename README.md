@@ -9,7 +9,7 @@ For communication use two any of the following methods…
 - Other messaging brokers (could use a test broker hosted online)
 - Other
 
-The provided data file cad_mesh.stl (a CAD geometry) should be passed to process A during execution. Using one method of communication, A must establish connect with B and send the contents of cad_mesh.stl. On receiving the data packet, B, which has earlier established a second channel of communication with A, must return the package. A will then save the received data in a file called output.stl.
+The provided data file cad_mesh.stl (a CAD geometry) should be passed to process A during execution. Using one method of communication, A must connect with B and send the contents of cad_mesh.stl. On receiving the data packet, B, which has earlier established a second channel of communication with A, must return the package. A will then save the received data in a file called output.stl.
 
 ## Requirements
 - The application/s may run on a single Windows or Linux workstation; may be connected to the web or not. Alternatively the two processes A & B could be deployed and run on two independent work stations. 
