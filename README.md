@@ -1,18 +1,18 @@
-# Take-home programming project
+# network_com_hw: Take-home programming project
 ## Objective
 Build two inter-communicating processes (A & B) able to exchange data using two different means of data transfer/messaging services. The processes could be headless - run from a command line, or have a GUI (You will provide instructions for using them).
 
-For communication use any of the following two means…
+For communication use two any of the following methods…
 - Network sockets
 - ZeroMQ (or equivalent for chosen programming language)
 - Netty
 - Other messaging brokers (could use a test broker hosted online)
 - Other
 
-The provided data file cad_mesh.stl (a CAD geometry) should be provided to process A. A must establish communication with B over one channel of communication and send the data to B. On receiving the data packet, B, which has earlier established a second channel of communication with A, must return the package over the second communication channel.
+The provided data file cad_mesh.stl (a CAD geometry) should be passed to process A during execution. Using one method of communication, A must establish connect with B and send the contents of cad_mesh.stl. On receiving the data packet, B, which has earlier established a second channel of communication with A, must return the package. A will then save the received data in a file called output.stl.
 
 ## Requirements
-- The application/s may run on a single Windows or Linux workstation, may be connected to the web or not. Alternatively the two processes A & B could be deployed and run on two independent work stations. 
+- The application/s may run on a single Windows or Linux workstation; may be connected to the web or not. Alternatively the two processes A & B could be deployed and run on two independent work stations. 
 - Developed in the candidate's choice of programming language.
 - Candidates must provide executables for functional evaluation, as well as code for review and discussion during subsequent follow-up interview discussion. The delivered package must include any necessary configuration or other files.
 - The deliverables must include documentation that could be followed to download, install and/or run the application.
@@ -21,6 +21,7 @@ The provided data file cad_mesh.stl (a CAD geometry) should be provided to proce
 
 ## Grading Criteria
 - We’re looking for code that is clean, readable, performant and maintainable.
+- The developer must think through the process of deploying and using the solution and provide necessary documentation.
 - The choice of messaging services used will not matter as long as the final code performs as expected. 
 
 ## Optional Challenge
