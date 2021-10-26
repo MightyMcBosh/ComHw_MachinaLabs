@@ -25,7 +25,7 @@ The provided data file cad_mesh.stl (a CAD geometry) should be provided to proce
 
 ## Optional Challenge
 - In Process B, implement a parser that reads the .stl file, extracts each vertex in the file and generates an Output.csv file containing the vertices.
-- The Output.csv file must be formatted to contain data (x,y,z) for each vertex on an independent line. The positional data coordinates, each a float, must have 4 significant digits following the decimal point. 
+- The Output.csv file must be formatted to contain data (x,y,z) for each vertex on an independent line. The positional data coordinate values, each a float, must have 4 significant digits following the decimal point. 
 - Return the output.csv file to process B.
 - If not familiar, the candidate will be expected to independently go online to understand the format of an .STL file, which is a commonly used CAD format.
 - We will be able to compare the generated Output.csv file against a valid file.
