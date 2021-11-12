@@ -33,3 +33,18 @@ Using one method of communication, Process A must connect with B and send conten
 - The Output.csv file must be formatted to contain data (x,y,z) for each vertex on an independent line. The positional data coordinate values, each a float, must have 4 significant digits following the decimal point. 
 - Return the output.csv file to process B.
 - If not familiar, the candidate is expected to independently conduct research online to understand the format of an .STL file, which is a commonly used CAD format.
+
+## Submission
+In order to submit the assignment, do the following:
+
+1. Navigate to GitHub's project import page: [https://github.com/new/import](https://github.com/new/import)
+
+2. In the box titled "Your old repository's clone URL", paste the homework repository's link: [https://github.com/Machina-Labs/network_com_hw](https://github.com/Machina-Labs/network_com_hw)
+
+3. In the box titled "Repository Name", add a name for your local homework (ex. `network_com_soln`)
+
+4. Set privacy level to "Public", then click "Begin Import" button at bottom of the page.
+
+5. Develop your homework solution in the cloned repository and push it to Github when you're done. Extra points for good Git hygiene.
+
+6. Send us the link to your repository.
