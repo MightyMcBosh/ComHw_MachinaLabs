@@ -1,0 +1,15 @@
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\bin\Debug\net6.0\Comm_HW_Server.exe
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\bin\Debug\net6.0\Comm_HW_Server.deps.json
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\bin\Debug\net6.0\Comm_HW_Server.runtimeconfig.json
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\bin\Debug\net6.0\Comm_HW_Server.dll
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\bin\Debug\net6.0\Comm_HW_Server.pdb
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\Comm_HW_Server.csproj.AssemblyReference.cache
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\Comm_HW_Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\Comm_HW_Server.AssemblyInfoInputs.cache
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\Comm_HW_Server.AssemblyInfo.cs
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\Comm_HW_Server.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\Comm_HW_Server.dll
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\refint\Comm_HW_Server.dll
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\Comm_HW_Server.pdb
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\Comm_HW_Server.genruntimeconfig.cache
+C:\Users\Administrator\source\repos\comhw_machinalabs\Comm_HW_Server\obj\Debug\net6.0\ref\Comm_HW_Server.dll
