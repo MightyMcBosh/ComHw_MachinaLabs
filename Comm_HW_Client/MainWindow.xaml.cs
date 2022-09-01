@@ -33,7 +33,7 @@ namespace Comm_HW_Client
             Controller.OnProcessStepChange += Controller_OnProcessStepChange;
         }
 
-       
+
 
         //Update the status string when the process step changes
         private void Controller_OnProcessStepChange(ProcessStep newProcessStep)
@@ -41,56 +41,59 @@ namespace Comm_HW_Client
             switch (newProcessStep)
             {
                 case ProcessStep.Ready:
-                    this.Dispatcher.Invoke(() =>
+                    this.Dispatcher.BeginInvoke(() =>
                     {
                         statusLabel.Content = "Ready";
                         statusLabel.InvalidateVisual();
                     });
-                   
+
                     break;
                 case ProcessStep.ReadingFile:
-                    this.Dispatcher.Invoke(() =>
+                    this.Dispatcher.BeginInvoke(() =>
                     {
                         statusLabel.Content = "Reading File From Disk";
                         statusLabel.InvalidateVisual();
                     });
                     break;
                 case ProcessStep.SendingFile:
-                    this.Dispatcher.Invoke(() =>
+                    this.Dispatcher.BeginInvoke(() =>
                     {
                         statusLabel.Content = "Sending File To Server";
                         statusLabel.InvalidateVisual();
 
                         File1.Text = System.Text.Encoding.UTF8.GetString(Controller.FileData);
-                        File1.InvalidateVisual(); 
+                        File1.InvalidateVisual();
                     });
                     break;
                 case ProcessStep.Waiting:
-                    this.Dispatcher.Invoke(() =>
+                    this.Dispatcher.BeginInvoke(() =>
                     {
                         statusLabel.Content = "Waiting for Server Response";
                         statusLabel.InvalidateVisual();
                     });
                     break;
                 case ProcessStep.ReceivingFile:
-                    this.Dispatcher.Invoke(() =>
+                    this.Dispatcher.BeginInvoke(() =>
                     {
                         statusLabel.Content = "Receiving Response From Server";
                         statusLabel.InvalidateVisual();
                     });
                     break;
                 case ProcessStep.ComparingFiles:
-                    this.Dispatcher.Invoke(() =>
+                    this.Dispatcher.BeginInvoke(() =>
                     {
                         statusLabel.Content = "Comparing Files to Ensure Completeness";
                         statusLabel.InvalidateVisual();
                     });
                     break;
                 case ProcessStep.Complete:
-                    this.Dispatcher.Invoke(() =>
+                    this.Dispatcher.BeginInvoke(() =>
                     {
                         statusLabel.Content = "Task Complete";
                         statusLabel.InvalidateVisual();
+
+                        File2.Text = System.Text.Encoding.UTF8.GetString(Controller.ReturnedData);
+                        File2.InvalidateVisual();
                     });
                     break;
             }
@@ -99,16 +102,16 @@ namespace Comm_HW_Client
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            if(e.RoutedEvent.Name == "Click")
+            if (e.RoutedEvent.Name == "Click")
             {
-                var openDialog = new OpenFileDialog(); 
-                if(openDialog.ShowDialog() == true)
+                var openDialog = new OpenFileDialog();
+                if (openDialog.ShowDialog() == true)
                 {
                     fileAddressBox.Text = openDialog.FileName;
                     if (string.IsNullOrEmpty(fileAddressBox.Text))
                     {
-                        
-                    }                    
+
+                    }
                 }
             }
         }
@@ -116,14 +119,20 @@ namespace Comm_HW_Client
         {
             if (e.RoutedEvent.Name == "Click")
             {
-                string tmp = fileAddressBox.Text; 
+                string tmp = fileAddressBox.Text;
                 if (!string.IsNullOrEmpty(tmp))
                 {
-                    Controller.StartTask(tmp); 
-                } 
+                    Controller.StartTask(tmp);
+                }
             }
         }
 
+        ~MainWindow()
+        {
+            Controller.AbortTask();
+        }
+
+        
        
     }
 }

@@ -22,10 +22,14 @@ catch
 }
 
 StlListener listener = new StlListener(port);
-listener.Begin(); 
-Console.ReadLine(); 
+
+Thread t = listener.Begin();
+
+while(t.IsAlive)
+    Thread.Sleep(1000);
 
 
-
+Console.WriteLine("Process Complete, Press Any key to exit");
+Console.ReadKey(); 
 
 

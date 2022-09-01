@@ -60,15 +60,12 @@ namespace Comm_HW_Client
             }
         }
 
-
-        static MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
-        static byte[]? file1Hash, file2hash; 
-
+        static MD5 md5 = MD5.Create(); 
 
         //keep a reference to the filename string from the UI. 
         private static string? _filename;
-        public static byte[] FileData { get; private set; } 
-        
+        public static byte[] FileData { get; private set; }
+        public static byte[] ReturnedData { get; private set; }
         //helper method to run this process asynchronously. 
         public static bool StartTask(string filename)
         {
@@ -81,6 +78,13 @@ namespace Comm_HW_Client
             }
             return false; 
         }
+        public static void AbortTask()
+        {
+            if (taskThread != null)
+            {
+                taskThread.Abort();
+            }
+        }
 
         /// <summary>
         /// This is straightforward enough - Attempt to make a connection to the server application. \
@@ -90,9 +94,9 @@ namespace Comm_HW_Client
         /// </summary>
         private static async void RunTask()
         {
-            bool error = false;
+            bool error = false, complete = false;
             Step = ProcessStep.Ready; 
-            while (!error)
+            while (!error && ! complete)
             {
                 switch (Step)
                 {
@@ -123,8 +127,7 @@ namespace Comm_HW_Client
                         fs.Close();
                         fs.Dispose();
 
-                        file1Hash = md5Hasher.ComputeHash(FileData);
-                        Debug.WriteLine(file1Hash.ToString());                         
+                                          
                         Step = ProcessStep.SendingFile; 
                         break;
                     case ProcessStep.SendingFile:
@@ -157,16 +160,75 @@ namespace Comm_HW_Client
                         }
 
 
-                        localSocket.Disconnect(false);
+                        localSocket.Close(); 
                         localSocket.Dispose();
 
                         Step = ProcessStep.Waiting; 
                         break;
                     case ProcessStep.Waiting:
+                        //Begin 
+                        HttpListener? listener = new HttpListener();
+                        listener.Prefixes.Add("http://localhost:8005/");
+                        
+                        listener.Start();
+                        ReturnedData = null; 
+                        var context = listener.GetContext(); //blocking until the connection is made; 
+                        var req = context.Request;
+                        if (req.Url.Segments[req.Url.Segments.Length - 1] == "stl" && req.HttpMethod == "POST") 
+                        {
+                            ReturnedData = new byte[req.ContentLength64];
+                            bytesToRead = (int)req.ContentLength64;
+                            int readData = 0;
+                            while(bytesToRead > 0)
+                            {
+                               int tmp =  req.InputStream.Read(ReturnedData, readData, (int)bytesToRead);
+                               bytesToRead -= tmp;
+                               readData += tmp; 
+                            }
+                            
+                        }
+
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        context.Response.Close();
+                        if(ReturnedData != null)
+                        {
+                            Debug.WriteLine($"read file: {ReturnedData.Length} bytes");
+
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"File not read");
+                            Step = ProcessStep.Error;
+                            break; 
+                        }
+                        byte[] hash1 = md5.ComputeHash(FileData);
+                        byte[] hash2 = md5.ComputeHash(ReturnedData);
+
+                        bool ok1 = hash1.SequenceEqual(hash2);
+
+                        if (false)//for debug
+                        {
+                            fs = new FileStream($"Comparison_{DateTime.Now.ToString("ddMMyy_hhmmss")}.csv", FileMode.CreateNew);
+
+                            for (int i = 0; i < FileData.Length; i++)
+                            {
+                                fs.Write(Encoding.UTF8.GetBytes($"{FileData[i]},{ReturnedData[i]},{FileData[i] - ReturnedData[i]}\n"));
+                            }
+                            fs.Close();
+                            fs.Dispose();  
+                        }
+
+                        if (ok1)
+                            Step = ProcessStep.Complete;
+                        else
+                            Step = ProcessStep.Error; 
                         break;
                     case ProcessStep.ReceivingFile:
+                       
+
                         break;
                     case ProcessStep.Complete:
+                        complete = true; 
                         break;
                     case ProcessStep.Error:
                         error = true;
@@ -174,55 +236,10 @@ namespace Comm_HW_Client
                         {
                             fs.Dispose();
                         }
-                        break;
-
-                
+                        break;               
                 }
-                Thread.Sleep(50); 
-                
+                Thread.Sleep(50);                 
             }
-            Step = ProcessStep.Ready; 
-        }
-
-        private static StringBuilder bob;
-
-        /// <summary>
-        /// Stl byte data - a header of 80 bytes, followed by 4 bytes of an unsigned integer - this says how many triangles exist in the file. 
-        /// Proceed to loop through the rest of the file and extract the triangle vertex information. 
-        /// </summary>
-        static async Task ProcessSTLDataIntoCSV()
-        { 
-            if (FileData != null && FileData.Length > 84)
-            {
-                //make it so this can run at the same time as the network transfer, this is a PC and memory is not really a concern. I would do this differently on an RPI or ucontroller.
-                byte[] data = new byte[FileData.Length];
-                lock(FileData)
-                {
-                    Array.Copy(FileData,data,FileData.Length);  
-                }
-
-
-                bob = new StringBuilder(); 
-                int index = 80;
-
-                uint numTriangles = BitConverter.ToUInt32(FileData, index);
-                index += sizeof(uint);
-                byte[] chunk = new byte[50]; //size of each triangle - 12 bytes per normal vector, x,y,and z coordinates, and 2 bytes of attributes (unused, according to wikipedia)
-                for(int i = 0; i < numTriangles; i++) //Extract all the data from the  file                
-                {
-                    
-                }
-            }
-        }
-
-        static string GetStringRepresentationOfFile()
-        {
-            if (bob != null)
-                return bob.ToString();
-            else
-                return ""; 
         }
     }
-
-    
 }
